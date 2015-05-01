@@ -25,6 +25,11 @@ describe("Character", function() {
       expect(subject.alignment(), "NEUTRAL");
     });
 
+    it("can be changed to GOOD", function() {
+      subject.alignment("GOOD");
+      expect(subject.alignment()).toBe("GOOD");
+    });
+
   });
 
 });
