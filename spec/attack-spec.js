@@ -12,4 +12,12 @@ describe("Attack", function() {
     expect(subject.resolve(15)).toBe(true);
   });
 
+  it("hits on a roll equal to armor class", function() {
+    expect(subject.resolve(10)).toBe(true);
+  });
+
+  it("misses on a roll less than armor class", function() {
+    expect(subject.resolve(5)).toBe(false);
+  });
+
 });

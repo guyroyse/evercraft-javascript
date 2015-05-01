@@ -1,10 +1,10 @@
 var Evercraft = Evercraft || {};
 
 Evercraft.Attack = {
-  create: function() {
+  create: function(attacker, defender) {
 
-    function resolve() {
-      return true;
+    function resolve(roll) {
+      return roll >= defender.armorClass();
     }
 
     return {
