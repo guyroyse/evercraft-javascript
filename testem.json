@@ -1,0 +1,9 @@
+{
+  "launch" : "phantomjs",
+  "framework" : "jasmine2",
+  "src_files" : [
+    "src/**/*.js",
+    "spec/spec-helper.js",
+    "spec/**/*-spec.js"
+  ]
+}
