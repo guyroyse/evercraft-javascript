@@ -5,6 +5,7 @@ Evercraft.Character = {
 
     var _name = "";
     var _alignment = "NEUTRAL";
+    var _hitPoints = 5;
 
     function name(val) {
       if (val !== undefined) _name = val;
@@ -24,7 +25,11 @@ Evercraft.Character = {
     }
 
     function hitPoints() {
-      return 5;
+      return _hitPoints;
+    }
+
+    function damage(points) {
+      _hitPoints -= points;
     }
 
     function validateAlignment(val) {
@@ -40,7 +45,8 @@ Evercraft.Character = {
       name : name,
       alignment : alignment,
       armorClass : armorClass,
-      hitPoints : hitPoints
+      hitPoints : hitPoints,
+      damage : damage
     };
 
   }
