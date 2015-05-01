@@ -48,4 +48,20 @@ describe("Character", function() {
 
   });
 
+  describe("armorClass", function() {
+
+    it("defaults to 10", function() {
+      expect(subject.armorClass()).toBe(10);
+    });
+
+  });
+
+  describe("hitPoints", function() {
+
+    it("defaults to 5", function() {
+      expect(subject.hitPoints()).toBe(5);
+    });
+
+  });
+
 });

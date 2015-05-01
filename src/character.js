@@ -13,16 +13,34 @@ Evercraft.Character = {
 
     function alignment(val) {
       if (val !== undefined) {
-        if (["GOOD", "NEUTRAL", "EVIL"].indexOf(val) === -1)
-          throw "Alignment can only be GOOD, NEUTRAL, or EVIL";
+        validateAlignment(val);
         _alignment = val;
       }
       return _alignment;
     }
 
+    function armorClass() {
+      return 10;
+    }
+
+    function hitPoints() {
+      return 5;
+    }
+
+    function validateAlignment(val) {
+      if (!alignmentIsValid(val))
+        throw "Alignment can only be GOOD, NEUTRAL, or EVIL";
+    }
+
+    function alignmentIsValid(val) {
+      return ["GOOD", "NEUTRAL", "EVIL"].indexOf(val) !== -1;
+    }
+
     return {
       name : name,
-      alignment : alignment
+      alignment : alignment,
+      armorClass : armorClass,
+      hitPoints : hitPoints
     };
 
   }
