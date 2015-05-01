@@ -62,6 +62,34 @@ describe("Character", function() {
       expect(subject.hitPoints()).toBe(5);
     });
 
+    it("goes down when damaged", function() {
+      subject.damage(2);
+      expect(subject.hitPoints()).toBe(3);
+    });
+
+  });
+
+  describe("alive", function() {
+
+    it("defaults to alive", function() {
+      expect(subject.alive()).toBe(true);
+    });
+
+    it("is true when damaged", function() {
+      subject.damage(2);
+      expect(subject.alive()).toBe(true);
+    });
+
+    it("is false when damaged to zero hit points", function() {
+      subject.damage(5);
+      expect(subject.alive()).toBe(false);
+    });
+
+    it("is false when damaged below zero hit points", function() {
+      subject.damage(10);
+      expect(subject.alive()).toBe(false);
+    });
+
   });
 
 });

@@ -24,6 +24,10 @@ Evercraft.Character = {
       return 10;
     }
 
+    function alive() {
+      return _hitPoints > 0;
+    }
+
     function hitPoints() {
       return _hitPoints;
     }
@@ -45,6 +49,7 @@ Evercraft.Character = {
       name : name,
       alignment : alignment,
       armorClass : armorClass,
+      alive : alive,
       hitPoints : hitPoints,
       damage : damage
     };
