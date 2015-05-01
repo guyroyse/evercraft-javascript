@@ -12,6 +12,11 @@ describe("Character", function() {
       expect(subject.name()).toBe("");
     });
 
+    it("can be changed", function() {
+      subject.name("Bob");
+      expect(subject.name()).toBe("Bob");
+    });
+
   });
 
 });
