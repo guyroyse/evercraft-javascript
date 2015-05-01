@@ -19,4 +19,12 @@ describe("Character", function() {
 
   });
 
+  describe("alignment", function() {
+
+    it("defaults to NEUTRAL", function() {
+      expect(subject.alignment(), "NEUTRAL");
+    });
+
+  });
+
 });

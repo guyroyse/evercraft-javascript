@@ -10,8 +10,13 @@ Evercraft.Character = {
       return _name;
     }
 
+    function alignment() {
+      return "NEUTRAL";
+    }
+
     return {
-      name : name
+      name : name,
+      alignment : alignment
     };
 
   }
