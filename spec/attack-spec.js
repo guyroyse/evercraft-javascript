@@ -26,7 +26,7 @@ describe("Attack", function() {
 
   describe("damaging defender", function() {
 
-    it("doesn't damages the defender on a miss", function() {
+    it("doesn't damage the defender on a miss", function() {
       subject.resolve(5);
       expect(defender.hitPoints()).toBe(5);
     });
@@ -36,11 +36,11 @@ describe("Attack", function() {
       expect(defender.hitPoints()).toBe(4);
     });
 
-    it("damages the defender on a hit", function() {
+    it("damages the defender doubly on a critical hit", function() {
       subject.resolve(20);
       expect(defender.hitPoints()).toBe(3);
     });
-    
+
   });
 
 });

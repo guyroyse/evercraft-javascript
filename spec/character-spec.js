@@ -40,7 +40,7 @@ describe("Character", function() {
       expect(subject.alignment()).toBe("EVIL");
     });
 
-    it("complains when changed to in invalid value", function() {
+    it("complains when changed to an invalid value", function() {
       expect(function() {
         subject.alignment("HAPPY")
       }).toThrow("Alignment can only be GOOD, NEUTRAL, or EVIL");
@@ -71,7 +71,7 @@ describe("Character", function() {
 
   describe("alive", function() {
 
-    it("defaults to alive", function() {
+    it("defaults to true", function() {
       expect(subject.alive()).toBe(true);
     });
 
