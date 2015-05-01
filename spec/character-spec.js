@@ -22,7 +22,7 @@ describe("Character", function() {
   describe("alignment", function() {
 
     it("defaults to NEUTRAL", function() {
-      expect(subject.alignment(), "NEUTRAL");
+      expect(subject.alignment()).toBe("NEUTRAL");
     });
 
     it("can be changed to GOOD", function() {
