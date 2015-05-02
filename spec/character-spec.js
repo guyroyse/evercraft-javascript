@@ -48,6 +48,40 @@ describe("Character", function() {
 
   });
 
+  describe("abilities", function() {
+
+    it("has a strength", function() {
+      expect(subject.strength().score()).toBe(10);
+      expect(subject.strength().modifier()).toBe(0);
+    });
+
+    it("has a dexterity", function() {
+      expect(subject.dexterity().score()).toBe(10);
+      expect(subject.dexterity().modifier()).toBe(0);
+    });
+
+    it("has a constitution", function() {
+      expect(subject.constitution().score()).toBe(10);
+      expect(subject.constitution().modifier()).toBe(0);
+    });
+
+    it("has a intelligence", function() {
+      expect(subject.intelligence().score()).toBe(10);
+      expect(subject.intelligence().modifier()).toBe(0);
+    });
+
+    it("has a wisdom", function() {
+      expect(subject.wisdom().score()).toBe(10);
+      expect(subject.wisdom().modifier()).toBe(0);
+    });
+
+    it("has a charisma", function() {
+      expect(subject.charisma().score()).toBe(10);
+      expect(subject.charisma().modifier()).toBe(0);
+    });
+
+  });
+
   describe("armorClass", function() {
 
     it("defaults to 10", function() {

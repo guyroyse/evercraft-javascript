@@ -6,6 +6,7 @@ Evercraft.Character = {
     var _name = "";
     var _alignment = "NEUTRAL";
     var _hitPoints = 5;
+    var _abilities = {};
 
     function name(val) {
       if (val !== undefined) _name = val;
@@ -18,6 +19,13 @@ Evercraft.Character = {
         _alignment = val;
       }
       return _alignment;
+    }
+
+    function abilityFn(name) {
+      _abilities[name] = Evercraft.Ability.create();
+      return function() {
+        return _abilities[name];
+      }
     }
 
     function armorClass() {
@@ -51,7 +59,13 @@ Evercraft.Character = {
       armorClass : armorClass,
       alive : alive,
       hitPoints : hitPoints,
-      damage : damage
+      damage : damage,
+      strength : abilityFn("strength"),
+      dexterity : abilityFn("dexterity"),
+      constitution : abilityFn("constitution"),
+      intelligence : abilityFn("intelligence"),
+      wisdom : abilityFn("wisdom"),
+      charisma : abilityFn("charisma")
     };
 
   }
