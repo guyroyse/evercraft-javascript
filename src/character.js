@@ -45,12 +45,19 @@ Evercraft.Character = {
     }
 
     function attackDamage() {
-      var damage = 1 + _abilities["strength"].modifier()
-      return Math.max(damage, 1);
+      return Math.max(baseDamage(), 1);
+    }
+
+    function criticalDamage() {
+      return Math.max(baseDamage() * 2, 1);
     }
 
     function damage(points) {
       _hitPoints -= points;
+    }
+
+    function baseDamage() {
+      return 1 + _abilities["strength"].modifier();
     }
 
     function validateAlignment(val) {
@@ -70,6 +77,7 @@ Evercraft.Character = {
       hitPoints : hitPoints,
       attackModifier : attackModifier,
       attackDamage : attackDamage,
+      criticalDamage : criticalDamage,
       damage : damage,
       strength : abilityFn("strength"),
       dexterity : abilityFn("dexterity"),

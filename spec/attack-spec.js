@@ -51,6 +51,8 @@ describe("Attack", function() {
   describe("damaging defender", function() {
 
     beforeEach(function() {
+      spyOn(attacker, 'attackDamage').and.returnValue(2);
+      spyOn(attacker, 'criticalDamage').and.returnValue(5);
       spyOn(defender, 'damage');
     });
 
@@ -61,12 +63,12 @@ describe("Attack", function() {
 
     it("damages the defender on a hit", function() {
       subject.resolve(15);
-      expect(defender.damage).toHaveBeenCalledWith(1);
+      expect(defender.damage).toHaveBeenCalledWith(2);
     });
 
     it("damages the defender doubly on a critical hit", function() {
       subject.resolve(20);
-      expect(defender.damage).toHaveBeenCalledWith(2);
+      expect(defender.damage).toHaveBeenCalledWith(5);
     });
 
   });

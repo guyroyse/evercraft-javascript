@@ -10,7 +10,7 @@ Evercraft.Attack = {
     }
 
     function calculateDamage(roll) {
-      return isCritical(roll) ? 2 : 1;
+      return isCritical(roll) ? attacker.criticalDamage() : attacker.attackDamage();
     }
 
     function isHit(roll) {

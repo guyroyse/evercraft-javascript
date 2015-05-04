@@ -134,6 +134,24 @@ describe("Character", function() {
 
   });
 
+  describe("criticalDamage", function() {
+
+    it("defaults to 2", function() {
+      expect(subject.criticalDamage()).toBe(2);
+    });
+
+    it("has twice strength modifier added to it", function() {
+      subject.strength().score(14);
+      expect(subject.criticalDamage()).toBe(6);
+    });
+
+    it("is always at least 1", function() {
+      subject.strength().score(8);
+      expect(subject.criticalDamage()).toBe(1);
+    });
+
+  });
+
   describe("alive", function() {
 
     it("defaults to true", function() {
