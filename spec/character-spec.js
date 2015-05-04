@@ -103,6 +103,37 @@ describe("Character", function() {
 
   });
 
+  describe("attackModifier", function() {
+
+    it("defaults to 0", function() {
+      expect(subject.attackModifier()).toBe(0);
+    });
+
+    it("has strength modifier added to it", function() {
+      subject.strength().score(14);
+      expect(subject.attackModifier()).toBe(2);
+    });
+
+  });
+
+  describe("attackDamage", function() {
+
+    it("defaults to 1", function() {
+      expect(subject.attackDamage()).toBe(1);
+    });
+
+    it("has strength modifier added to it", function() {
+      subject.strength().score(14);
+      expect(subject.attackDamage()).toBe(3);
+    });
+
+    it("is always at least 1", function() {
+      subject.strength().score(8);
+      expect(subject.attackDamage()).toBe(1);
+    });
+
+  });
+
   describe("alive", function() {
 
     it("defaults to true", function() {

@@ -40,6 +40,15 @@ Evercraft.Character = {
       return _hitPoints;
     }
 
+    function attackModifier() {
+      return _abilities["strength"].modifier();
+    }
+
+    function attackDamage() {
+      var damage = 1 + _abilities["strength"].modifier()
+      return Math.max(damage, 1);
+    }
+
     function damage(points) {
       _hitPoints -= points;
     }
@@ -59,6 +68,8 @@ Evercraft.Character = {
       armorClass : armorClass,
       alive : alive,
       hitPoints : hitPoints,
+      attackModifier : attackModifier,
+      attackDamage : attackDamage,
       damage : damage,
       strength : abilityFn("strength"),
       dexterity : abilityFn("dexterity"),
