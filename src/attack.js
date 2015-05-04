@@ -4,18 +4,17 @@ Evercraft.Attack = {
   create: function(attacker, defender) {
 
     function resolve(roll) {
-      defender.damage(calculateDamage(roll));
-      return isHit(roll);
+      var hit = isHit(roll);
+      if (hit) defender.damage(calculateDamage(roll));
+      return hit;
     }
 
     function calculateDamage(roll) {
-      if (isCritical(roll)) return 2;
-      if (isHit(roll)) return 1;
-      return 0;
+      return isCritical(roll) ? 2 : 1;
     }
 
     function isHit(roll) {
-      return roll >= defender.armorClass();
+      return roll + attacker.attackModifier() >= defender.armorClass();
     }
 
     function isCritical(roll) {
