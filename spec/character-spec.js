@@ -61,6 +61,19 @@ describe("Character", function() {
 
   });
 
+  describe("characterClass", function() {
+
+    it("defaults to No Class", function() {
+      expect(subject.characterClass()).toBe("No Class");
+    });
+
+    it("can be changed", function() {
+      subject.characterClass("Fighter");
+      expect(subject.characterClass()).toBe("Fighter");
+    });
+
+  });
+
   describe("level", function() {
 
     it("defaults to 1", function() {
@@ -183,6 +196,12 @@ describe("Character", function() {
     it("is increased by 1 for every even level", function() {
       subject.experiencePoints(4000); // 5th level
       expect(subject.attackModifier()).toBe(2);
+    });
+
+    it("is increased by 1 for every level when character is a fighter", function() {
+      subject.characterClass("Fighter");
+      subject.experiencePoints(4000); // 5th level
+      expect(subject.attackModifier()).toBe(5);
     });
 
   });
