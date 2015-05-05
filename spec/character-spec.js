@@ -48,6 +48,19 @@ describe("Character", function() {
 
   });
 
+  describe("experiencePoints", function() {
+
+    it("defaults to 0", function() {
+      expect(subject.experiencePoints()).toBe(0);
+    });
+
+    it("can be changed", function() {
+      subject.experiencePoints(1500);
+      expect(subject.experiencePoints()).toBe(1500);
+    });
+
+  });
+
   describe("abilities", function() {
 
     it("has a strength", function() {
@@ -88,13 +101,32 @@ describe("Character", function() {
       expect(subject.armorClass()).toBe(10);
     });
 
+    it("is modified by dexterity modifier", function() {
+      subject.dexterity().score(14);
+      expect(subject.armorClass()).toBe(12);
+    });
+
+  });
+
+  describe("maxHitPoints", function() {
+
+    it("defaults to 5", function() {
+      expect(subject.maxHitPoints()).toBe(5);
+    });
+
+    it("is modified by constitution modifier", function() {
+      subject.constitution().score(14);
+      expect(subject.maxHitPoints()).toBe(7);
+    });
+
+    it("cannot be modified below 1", function() {
+      subject.constitution().score(1);
+      expect(subject.maxHitPoints()).toBe(1);
+    });
+
   });
 
   describe("hitPoints", function() {
-
-    it("defaults to 5", function() {
-      expect(subject.hitPoints()).toBe(5);
-    });
 
     it("goes down when damaged", function() {
       subject.damage(2);

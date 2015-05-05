@@ -11,44 +11,25 @@ describe("Attack", function() {
   describe("hitting defender", function() {
 
     beforeEach(function() {
+      spyOn(attacker, 'attackModifier').and.returnValue(2);
       spyOn(defender, 'armorClass').and.returnValue(10);
     });
 
-    it("misses on a roll less than armor class", function() {
+    it("misses when roll plus attack modifier is less than armor class", function() {
       expect(subject.resolve(5)).toBe(false);
     });
 
-    it("hits on a roll equal to armor class", function() {
-      expect(subject.resolve(10)).toBe(true);
+    it("hits when roll plus attack modifier equals armor class", function() {
+      expect(subject.resolve(8)).toBe(true);
     });
 
-    it("hits on a roll greater than armor class", function() {
+    it("hits when roll plus attack modifier is greater than armor class", function() {
       expect(subject.resolve(15)).toBe(true);
-    });
-
-    describe("when attacker has an attack modifier", function() {
-
-      beforeEach(function() {
-        spyOn(attacker, 'attackModifier').and.returnValue(2);
-      });
-
-      it("misses when roll plus attack modifier is less than armor class", function() {
-        expect(subject.resolve(5)).toBe(false);
-      });
-
-      it("hits when roll plus attack modifier equals armor class", function() {
-        expect(subject.resolve(8)).toBe(true);
-      });
-
-      it("hits when roll plus attack modifier is greater than armor class", function() {
-        expect(subject.resolve(15)).toBe(true);
-      });
-
     });
 
   });
 
-  describe("damaging defender", function() {
+  describe("when attacking", function() {
 
     beforeEach(function() {
       spyOn(attacker, 'attackDamage').and.returnValue(2);
@@ -56,19 +37,52 @@ describe("Attack", function() {
       spyOn(defender, 'damage');
     });
 
-    it("doesn't damage the defender on a miss", function() {
-      subject.resolve(5);
-      expect(defender.damage).not.toHaveBeenCalled();
+    describe("and missing", function() {
+
+      beforeEach(function() {
+        subject.resolve(5);
+      });
+
+      it("doesn't damage the defender", function() {
+        expect(defender.damage).not.toHaveBeenCalled();
+      });
+
+      it("doesn't grant the attacker experience points", function() {
+        expect(attacker.experiencePoints()).toBe(0);
+      });
+
     });
 
-    it("damages the defender on a hit", function() {
-      subject.resolve(15);
-      expect(defender.damage).toHaveBeenCalledWith(2);
+    describe("and hitting", function() {
+
+      beforeEach(function() {
+        subject.resolve(15);
+      });
+
+      it("damages the defender", function() {
+        expect(defender.damage).toHaveBeenCalledWith(2);
+      });
+
+      it("grants the attacker 10 experience points", function() {
+        expect(attacker.experiencePoints()).toBe(10);
+      });
+
     });
 
-    it("damages the defender doubly on a critical hit", function() {
-      subject.resolve(20);
-      expect(defender.damage).toHaveBeenCalledWith(5);
+    describe("and critically hitting", function() {
+
+      beforeEach(function() {
+        subject.resolve(20);
+      });
+
+      it("damages the defender with critical damage", function() {
+        expect(defender.damage).toHaveBeenCalledWith(5);
+      });
+
+      it("grants the attacker 10 experience points", function() {
+        expect(attacker.experiencePoints()).toBe(10);
+      });
+
     });
 
   });

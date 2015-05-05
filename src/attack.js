@@ -5,8 +5,19 @@ Evercraft.Attack = {
 
     function resolve(roll) {
       var hit = isHit(roll);
-      if (hit) defender.damage(calculateDamage(roll));
+      if (hit) {
+        applyDamage(roll);
+        incrementExperience();
+      }
       return hit;
+    }
+
+    function applyDamage(roll) {
+      defender.damage(calculateDamage(roll));
+    }
+
+    function incrementExperience() {
+      attacker.experiencePoints(attacker.experiencePoints() + 10);
     }
 
     function calculateDamage(roll) {

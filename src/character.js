@@ -5,7 +5,8 @@ Evercraft.Character = {
 
     var _name = "";
     var _alignment = "NEUTRAL";
-    var _hitPoints = 5;
+    var _xp = 0;
+    var _damage = 0;
     var _abilities = {};
 
     function name(val) {
@@ -21,6 +22,11 @@ Evercraft.Character = {
       return _alignment;
     }
 
+    function experiencePoints(val) {
+      if (val !== undefined) _xp = val;
+      return _xp;
+    }
+
     function abilityFn(name) {
       _abilities[name] = Evercraft.Ability.create();
       return function() {
@@ -29,15 +35,19 @@ Evercraft.Character = {
     }
 
     function armorClass() {
-      return 10;
+      return 10 + _abilities["dexterity"].modifier();
     }
 
     function alive() {
-      return _hitPoints > 0;
+      return hitPoints() > 0;
+    }
+
+    function maxHitPoints() {
+      return Math.max(5 + _abilities["constitution"].modifier(), 1);
     }
 
     function hitPoints() {
-      return _hitPoints;
+      return maxHitPoints() - _damage;
     }
 
     function attackModifier() {
@@ -53,7 +63,7 @@ Evercraft.Character = {
     }
 
     function damage(points) {
-      _hitPoints -= points;
+      _damage += points;
     }
 
     function baseDamage() {
@@ -72,8 +82,10 @@ Evercraft.Character = {
     return {
       name : name,
       alignment : alignment,
+      experiencePoints : experiencePoints,
       armorClass : armorClass,
       alive : alive,
+      maxHitPoints : maxHitPoints,
       hitPoints : hitPoints,
       attackModifier : attackModifier,
       attackDamage : attackDamage,
