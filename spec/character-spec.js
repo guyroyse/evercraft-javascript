@@ -148,12 +148,12 @@ describe("Character", function() {
     });
 
     it("is multiplied by level", function() {
-      subject.experiencePoints(2000);
+      subject.experiencePoints(2000); // 3rd level
       expect(subject.maxHitPoints()).toBe(15);
     });
 
     it("is at least 1 point per level", function() {
-      subject.experiencePoints(2000);
+      subject.experiencePoints(2000); // 3rd level
       subject.constitution().score(1);
       expect(subject.maxHitPoints()).toBe(3);
     });
@@ -177,6 +177,11 @@ describe("Character", function() {
 
     it("has strength modifier added to it", function() {
       subject.strength().score(14);
+      expect(subject.attackModifier()).toBe(2);
+    });
+
+    it("is increased by 1 for every even level", function() {
+      subject.experiencePoints(4000); // 5th level
       expect(subject.attackModifier()).toBe(2);
     });
 

@@ -55,7 +55,7 @@ Evercraft.Character = {
     }
 
     function attackModifier() {
-      return _abilities["strength"].modifier();
+      return _abilities["strength"].modifier() + Math.floor(level() / 2);
     }
 
     function attackDamage() {
