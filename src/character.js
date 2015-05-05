@@ -47,7 +47,7 @@ Evercraft.Character = {
     }
 
     function maxHitPoints() {
-      return Math.max(5 + _abilities["constitution"].modifier(), 1);
+      return Math.max(5 + _abilities["constitution"].modifier(), 1) * level();
     }
 
     function hitPoints() {

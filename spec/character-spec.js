@@ -147,6 +147,17 @@ describe("Character", function() {
       expect(subject.maxHitPoints()).toBe(1);
     });
 
+    it("is multiplied by level", function() {
+      subject.experiencePoints(2000);
+      expect(subject.maxHitPoints()).toBe(15);
+    });
+
+    it("is at least 1 point per level", function() {
+      subject.experiencePoints(2000);
+      subject.constitution().score(1);
+      expect(subject.maxHitPoints()).toBe(3);
+    });
+
   });
 
   describe("hitPoints", function() {
