@@ -61,6 +61,29 @@ describe("Character", function() {
 
   });
 
+  describe("level", function() {
+
+    it("defaults to 1", function() {
+      expect(subject.level()).toBe(1);
+    });
+
+    it("doesn't increase for less than 1000 experience points", function() {
+      subject.experiencePoints(999);
+      expect(subject.level()).toBe(1);
+    });
+
+    it("increase by 1 for 1000 experience points", function() {
+      subject.experiencePoints(1000);
+      expect(subject.level()).toBe(2);
+    });
+
+    it("increase by 2 for 2000 experience points", function() {
+      subject.experiencePoints(2000);
+      expect(subject.level()).toBe(3);
+    });
+
+  });
+
   describe("abilities", function() {
 
     it("has a strength", function() {

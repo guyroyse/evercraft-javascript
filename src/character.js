@@ -27,6 +27,10 @@ Evercraft.Character = {
       return _xp;
     }
 
+    function level() {
+      return 1 + Math.floor(_xp / 1000);
+    }
+
     function abilityFn(name) {
       _abilities[name] = Evercraft.Ability.create();
       return function() {
@@ -83,6 +87,7 @@ Evercraft.Character = {
       name : name,
       alignment : alignment,
       experiencePoints : experiencePoints,
+      level : level,
       armorClass : armorClass,
       alive : alive,
       maxHitPoints : maxHitPoints,
