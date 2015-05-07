@@ -38,8 +38,16 @@ Evercraft.Character = {
       return 10 + _props["dex"].modifier();
     }
 
+    function baseHitPointsPerLevel() {
+      return _props["class"] === "Fighter" ? 10 : 5;
+    }
+
+    function hitPointsPerLevel() {
+      return Math.max(baseHitPointsPerLevel() + _props["con"].modifier(), 1);
+    }
+
     function maxHitPoints() {
-      return Math.max(5 + _props["con"].modifier(), 1) * level();
+      return hitPointsPerLevel() * level();
     }
 
     function hitPoints() {

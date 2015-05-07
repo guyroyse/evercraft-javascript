@@ -146,7 +146,7 @@ describe("Character", function() {
 
   describe("maxHitPoints", function() {
 
-    it("defaults to 5", function() {
+    it("defaults to 5 per level", function() {
       expect(subject.maxHitPoints()).toBe(5);
     });
 
@@ -169,6 +169,18 @@ describe("Character", function() {
       subject.experiencePoints(2000); // 3rd level
       subject.constitution().score(1);
       expect(subject.maxHitPoints()).toBe(3);
+    });
+
+    describe("when a Fighter", function() {
+
+      beforeEach(function() {
+        subject.characterClass("Fighter");
+      });
+
+      it("defaults to 10 for fighter", function() {
+        expect(subject.maxHitPoints()).toBe(10);
+      });
+
     });
 
   });
