@@ -146,27 +146,20 @@ describe("Character", function() {
 
   describe("maxHitPoints", function() {
 
+    beforeEach(function() {
+      subject.experiencePoints(2000);
+    });
+
     it("defaults to 5 per level", function() {
-      expect(subject.maxHitPoints()).toBe(5);
-    });
-
-    it("is modified by constitution modifier", function() {
-      subject.constitution().score(14);
-      expect(subject.maxHitPoints()).toBe(7);
-    });
-
-    it("cannot be modified below 1", function() {
-      subject.constitution().score(1);
-      expect(subject.maxHitPoints()).toBe(1);
-    });
-
-    it("is multiplied by level", function() {
-      subject.experiencePoints(2000); // 3rd level
       expect(subject.maxHitPoints()).toBe(15);
     });
 
-    it("is at least 1 point per level", function() {
-      subject.experiencePoints(2000); // 3rd level
+    it("is modified by constitution modifier per level", function() {
+      subject.constitution().score(14);
+      expect(subject.maxHitPoints()).toBe(21);
+    });
+
+    it("cannot be modified below 1 per level", function() {
       subject.constitution().score(1);
       expect(subject.maxHitPoints()).toBe(3);
     });
@@ -177,8 +170,8 @@ describe("Character", function() {
         subject.characterClass("Fighter");
       });
 
-      it("defaults to 10 for fighter", function() {
-        expect(subject.maxHitPoints()).toBe(10);
+      it("defaults to 10 per level", function() {
+        expect(subject.maxHitPoints()).toBe(30);
       });
 
     });
@@ -196,24 +189,30 @@ describe("Character", function() {
 
   describe("attackModifier", function() {
 
-    it("defaults to 0", function() {
-      expect(subject.attackModifier()).toBe(0);
+    beforeEach(function() {
+      subject.experiencePoints(4000);
+    });
+
+    it("is increased by 1 for every even level", function() {
+      expect(subject.attackModifier()).toBe(2);
     });
 
     it("has strength modifier added to it", function() {
       subject.strength().score(14);
-      expect(subject.attackModifier()).toBe(2);
+      expect(subject.attackModifier()).toBe(4);
     });
 
-    it("is increased by 1 for every even level", function() {
-      subject.experiencePoints(4000); // 5th level
-      expect(subject.attackModifier()).toBe(2);
-    });
+    describe("when a Fighter", function() {
 
-    it("is increased by 1 for every level when character is a fighter", function() {
-      subject.characterClass("Fighter");
-      subject.experiencePoints(4000); // 5th level
-      expect(subject.attackModifier()).toBe(5);
+      beforeEach(function() {
+        subject.characterClass("Fighter");
+      });
+
+      it("is increased by 1 for every level when character is a fighter", function() {
+        subject.experiencePoints(4000); // 5th level
+        expect(subject.attackModifier()).toBe(5);
+      });
+
     });
 
   });
