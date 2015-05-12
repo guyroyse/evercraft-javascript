@@ -212,6 +212,18 @@ describe("Character", function() {
 
     });
 
+    describe("when a Paladin", function() {
+
+      beforeEach(function() {
+        subject.characterClass("Paladin");
+      });
+
+      it("defaults to 8 per level", function() {
+        expect(subject.maxHitPoints()).toBe(24);
+      });
+
+    });
+
   });
 
   describe("hitPoints", function() {
@@ -290,6 +302,18 @@ describe("Character", function() {
 
       it("is increased by 1 for every second and third level", function() {
         expect(subject.attackModifier()).toBe(3);
+      });
+
+    });
+
+    describe("when a Paladin", function() {
+
+      beforeEach(function() {
+        subject.characterClass("Paladin");
+      });
+
+      it("is increased by 1 for every level", function() {
+        expect(subject.attackModifier()).toBe(5);
       });
 
     });

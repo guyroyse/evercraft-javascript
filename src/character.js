@@ -15,7 +15,8 @@ Evercraft.Character = {
       'No Class' : { hpPerLevel : 5,  damage : 1, critMultiplier: 2, attackProgression : 1/2 },
       'Fighter'  : { hpPerLevel : 10, damage : 1, critMultiplier: 2, attackProgression : 1   },
       'Rogue'    : { hpPerLevel : 5,  damage : 1, critMultiplier: 3, attackProgression : 1/2 },
-      'War Monk' : { hpPerLevel : 6,  damage : 3, critMultiplier: 2, attackProgression : 2/3 }
+      'War Monk' : { hpPerLevel : 6,  damage : 3, critMultiplier: 2, attackProgression : 2/3 },
+      'Paladin'  : { hpPerLevel : 8,  damage : 1, critMultiplier: 2, attackProgression : 1   }
     }
 
     function propertyFn(name, defaultVal, validator) {

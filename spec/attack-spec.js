@@ -27,7 +27,7 @@ describe("Attack", function() {
       expect(subject.resolve(15)).toBe(true);
     });
 
-    describe("and attacker is a rogue", function() {
+    describe("and attacker is a Rogue", function() {
 
       beforeEach(function() {
         spyOn(attacker, 'characterClass').and.returnValue('Rogue');
@@ -75,6 +75,54 @@ describe("Attack", function() {
 
     });
 
+    describe("and attacker is a Paladin", function() {
+
+      beforeEach(function() {
+        spyOn(attacker, 'characterClass').and.returnValue('Rogue');
+      });
+
+      describe("and defender is Evil", function() {
+
+        beforeEach(function() {
+          spyOn(defender.dexterity(), 'modifier').and.returnValue(2);
+        });
+
+        it("misses when roll plus attack modifier is less than armor class minus dexterity modifier", function() {
+          expect(subject.resolve(5)).toBe(false);
+        });
+
+        it("hits when roll plus attack modifier equals armor class minus dexterity modifier", function() {
+          expect(subject.resolve(6)).toBe(true);
+        });
+
+        it("hits when roll plus attack modifier is greater than armor class minus dexterity modifier", function() {
+          expect(subject.resolve(15)).toBe(true);
+        });
+
+      });
+
+      describe("and defender is not Evil", function() {
+
+        beforeEach(function() {
+          spyOn(defender.dexterity(), 'modifier').and.returnValue(-2);
+        });
+
+        it("misses when roll plus attack modifier is less than armor class", function() {
+          expect(subject.resolve(5)).toBe(false);
+        });
+
+        it("hits when roll plus attack modifier equals armor class", function() {
+          expect(subject.resolve(8)).toBe(true);
+        });
+
+        it("hits when roll plus attack modifier is greater than armor class", function() {
+          expect(subject.resolve(15)).toBe(true);
+        });
+
+      });
+
+    });
+    
   });
 
   describe("when attacking", function() {
