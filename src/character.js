@@ -4,13 +4,19 @@ Evercraft.Character = {
   create : function() {
 
     var _name = "";
-    var _class = "No Class";
     var _xp = 0;
 
     var _alignment = "NEUTRAL";
     var _damage = 0;
     var _props = {};
     var _abilities = {};
+
+    var _classTable = {
+      'No Class' : { hpPerLevel : 5,  damage : 1, critMultiplier: 2, attackProgression : 1/2 },
+      'Fighter'  : { hpPerLevel : 10, damage : 1, critMultiplier: 2, attackProgression : 1   },
+      'Rogue'    : { hpPerLevel : 5,  damage : 1, critMultiplier: 3, attackProgression : 1/2 },
+      'War Monk' : { hpPerLevel : 6,  damage : 3, critMultiplier: 2, attackProgression : 2/3 }
+    }
 
     function propertyFn(name, defaultVal, validator) {
       _props[name] = defaultVal;
@@ -31,19 +37,11 @@ Evercraft.Character = {
     }
 
     function level() {
-      return 1 + Math.floor(_props['xp'] / 1000);
+      return 1 + Math.floor(_props.xp / 1000);
     }
 
     function armorClass() {
-      return 10 + _props["dex"].modifier();
-    }
-
-    function baseHitPointsPerLevel() {
-      return _props["class"] === "Fighter" ? 10 : 5;
-    }
-
-    function hitPointsPerLevel() {
-      return Math.max(baseHitPointsPerLevel() + _props["con"].modifier(), 1);
+      return _props.class === 'War Monk' ? armorClassPlusDex() + wisBonus() : armorClassPlusDex();
     }
 
     function maxHitPoints() {
@@ -58,16 +56,8 @@ Evercraft.Character = {
       return hitPoints() > 0;
     }
 
-    function baseAttack() {
-      return _props["class"] === 'Fighter' ? level() : Math.floor(level() / 2);
-    }
-
     function attackModifier() {
-      return baseAttack() + (_props["class"] === 'Rogue' ? _props["dex"].modifier() : _props["str"].modifier());
-    }
-
-    function baseDamage() {
-      return 1 + _props["str"].modifier();
+      return _props.class === 'Rogue' ? baseAttack() + dexModifier() : baseAttack() + strModifier();
     }
 
     function attackDamage() {
@@ -75,11 +65,59 @@ Evercraft.Character = {
     }
 
     function criticalDamage() {
-      return _props["class"] === 'Rogue' ? Math.max(baseDamage() * 3, 1) : Math.max(baseDamage() * 2, 1);
+      return Math.max(baseDamage() * criticalMultiplier(), 1);
     }
 
     function damage(points) {
       _damage += points;
+    }
+
+    function armorClassPlusDex() {
+      return 10 + dexModifier();
+    }
+
+    function hitPointsPerLevel() {
+      return Math.max(baseHitPointsPerLevel() + conModifier(), 1);
+    }
+
+    function baseHitPointsPerLevel() {
+      return _classTable[_props.class].hpPerLevel;
+    }
+
+    function baseAttack() {
+      return Math.floor(level() * attackProgression());
+    }
+
+    function attackProgression() {
+      return _classTable[_props.class].attackProgression;
+    }
+
+    function baseDamage() {
+      return _classTable[_props.class].damage + strModifier();
+    }
+
+    function criticalMultiplier() {
+      return _classTable[_props.class].critMultiplier;
+    }
+
+    function strModifier() {
+      return _props.str.modifier();
+    }
+
+    function dexModifier() {
+      return _props.dex.modifier();
+    }
+
+    function conModifier() {
+      return _props.con.modifier();
+    }
+
+    function wisModifier() {
+      return _props.wis.modifier();
+    }
+
+    function wisBonus() {
+      return Math.max(0, wisModifier());
     }
 
     function validateAlignment(val) {

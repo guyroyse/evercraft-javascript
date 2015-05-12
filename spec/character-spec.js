@@ -142,6 +142,30 @@ describe("Character", function() {
       expect(subject.armorClass()).toBe(12);
     });
 
+    describe("when a War Monk", function() {
+
+      beforeEach(function() {
+        subject.characterClass("War Monk");
+      });
+
+      it("is modified by wisdom bonus", function() {
+        subject.wisdom().score(16);
+        expect(subject.armorClass()).toBe(13);
+      });
+
+      it("is not modified by wisdom penalty", function() {
+        subject.wisdom().score(6);
+        expect(subject.armorClass()).toBe(10);
+      });
+
+      it("is modified by dexterity and wisdom modifier", function() {
+        subject.dexterity().score(14);
+        subject.wisdom().score(16);
+        expect(subject.armorClass()).toBe(15);
+      });
+
+    });
+
   });
 
   describe("maxHitPoints", function() {
@@ -172,6 +196,18 @@ describe("Character", function() {
 
       it("defaults to 10 per level", function() {
         expect(subject.maxHitPoints()).toBe(30);
+      });
+
+    });
+
+    describe("when a War Monk", function() {
+
+      beforeEach(function() {
+        subject.characterClass("War Monk");
+      });
+
+      it("defaults to 6 per level", function() {
+        expect(subject.maxHitPoints()).toBe(18);
       });
 
     });
@@ -208,8 +244,7 @@ describe("Character", function() {
         subject.characterClass("Fighter");
       });
 
-      it("is increased by 1 for every level when character is a fighter", function() {
-        subject.experiencePoints(4000); // 5th level
+      it("is increased by 1 for every level", function() {
         expect(subject.attackModifier()).toBe(5);
       });
 
@@ -247,6 +282,18 @@ describe("Character", function() {
 
     });
 
+    describe("when a War Monk", function() {
+
+      beforeEach(function() {
+        subject.characterClass("War Monk");
+      });
+
+      it("is increased by 1 for every second and third level", function() {
+        expect(subject.attackModifier()).toBe(3);
+      });
+
+    });
+
   });
 
   describe("attackDamage", function() {
@@ -263,6 +310,18 @@ describe("Character", function() {
     it("is always at least 1", function() {
       subject.strength().score(8);
       expect(subject.attackDamage()).toBe(1);
+    });
+
+    describe("when a War Monk", function() {
+
+      beforeEach(function() {
+        subject.characterClass("War Monk");
+      });
+
+      it("defaults to 3", function() {
+        expect(subject.attackDamage()).toBe(3);
+      });
+
     });
 
   });
@@ -291,6 +350,18 @@ describe("Character", function() {
 
       it("defaults to 3", function() {
         expect(subject.criticalDamage()).toBe(3);
+      });
+
+    });
+
+    describe("when a War Monk", function() {
+
+      beforeEach(function() {
+        subject.characterClass("War Monk");
+      });
+
+      it("defaults to 6", function() {
+        expect(subject.criticalDamage()).toBe(6);
       });
 
     });
