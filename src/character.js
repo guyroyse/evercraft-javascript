@@ -63,7 +63,7 @@ Evercraft.Character = {
     }
 
     function attackModifier() {
-      return baseAttack() + _props["str"].modifier();
+      return baseAttack() + (_props["class"] === 'Rogue' ? _props["dex"].modifier() : _props["str"].modifier());
     }
 
     function baseDamage() {
@@ -75,7 +75,7 @@ Evercraft.Character = {
     }
 
     function criticalDamage() {
-      return Math.max(baseDamage() * 2, 1);
+      return _props["class"] === 'Rogue' ? Math.max(baseDamage() * 3, 1) : Math.max(baseDamage() * 2, 1);
     }
 
     function damage(points) {

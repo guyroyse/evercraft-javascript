@@ -215,6 +215,38 @@ describe("Character", function() {
 
     });
 
+    describe("when a Rogue", function() {
+
+      beforeEach(function() {
+        subject.characterClass("Rogue");
+      });
+
+      describe("who is strong", function() {
+
+        beforeEach(function() {
+          subject.strength().score(14);
+        });
+
+        it("does not have strength modifier added to it", function() {
+          expect(subject.attackModifier()).toBe(2);
+        });
+
+      });
+
+      describe("who is quick", function() {
+
+        beforeEach(function() {
+          subject.dexterity().score(14);
+        });
+
+        it("has dexterity modifier added to it", function() {
+          expect(subject.attackModifier()).toBe(4);
+        });
+
+      });
+
+    });
+
   });
 
   describe("attackDamage", function() {
@@ -247,8 +279,20 @@ describe("Character", function() {
     });
 
     it("is always at least 1", function() {
-      subject.strength().score(8);
+      subject.strength().score(2);
       expect(subject.criticalDamage()).toBe(1);
+    });
+
+    describe("when a Rogue", function() {
+
+      beforeEach(function() {
+        subject.characterClass("Rogue");
+      });
+
+      it("defaults to 3", function() {
+        expect(subject.criticalDamage()).toBe(3);
+      });
+
     });
 
   });

@@ -25,11 +25,27 @@ Evercraft.Attack = {
     }
 
     function isHit(roll) {
-      return roll + attacker.attackModifier() >= defender.armorClass();
+      return effectiveRoll(roll) >= effectiveArmorClass();
     }
 
     function isCritical(roll) {
       return roll === 20;
+    }
+
+    function effectiveRoll(roll) {
+      return roll + attacker.attackModifier();
+    }
+
+    function effectiveArmorClass() {
+      return attacker.characterClass() === 'Rogue' ? armorClassMinusDexBonus() : armorClass();
+    }
+
+    function armorClassMinusDexBonus() {
+      return defender.armorClass() - Math.max(0, defender.dexterity().modifier());
+    }
+
+    function armorClass() {
+      return defender.armorClass();
     }
 
     return {
