@@ -25,21 +25,9 @@ Evercraft.Character = {
       };
     }
 
-    function abilityFn(name) {
-      _props[name] = Evercraft.Ability.create();
-      return function() {
-        return _props[name];
-      };
-    }
-
     function abilityScoreFn(name) {
-      if (!_props[name]) _props[name] = Evercraft.Ability.create();
+      _props[name] = Evercraft.Ability.create();
       return _props[name].score;
-    }
-
-    function abilityModifierFn(name) {
-      if (!_props[name]) _props[name] = Evercraft.Ability.create();
-      return _props[name].modifier;
     }
 
     function level() {
@@ -99,7 +87,7 @@ Evercraft.Character = {
     }
 
     function strModifier() {
-      return _props.str.modifier();
+      return _props.race === "Orc" ? _props.str.modifier() + 2: _props.str.modifier();
     }
 
     function dexModifier() {
@@ -140,6 +128,7 @@ Evercraft.Character = {
       alignment : propertyFn("alignment", "NEUTRAL", validateAlignment),
       experiencePoints : propertyFn("xp", 0),
       characterClass : propertyFn("class", "No Class"),
+      race : propertyFn("race", "Human"),
 
       strengthScore : abilityScoreFn("str"),
       strengthModifier : strModifier,
