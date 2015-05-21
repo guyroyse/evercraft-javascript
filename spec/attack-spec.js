@@ -8,128 +8,11 @@ describe("Attack", function() {
     subject = Evercraft.Attack.create(attacker, defender);
   });
 
-  describe("hitting defender", function() {
-
-    beforeEach(function() {
-      spyOn(attacker, 'attackModifier').and.returnValue(2);
-      spyOn(defender, 'armorClass').and.returnValue(10);
-    });
-
-    it("misses when roll plus attack modifier is less than armor class", function() {
-      expect(subject.resolve(5)).toBe(false);
-    });
-
-    it("hits when roll plus attack modifier equals armor class", function() {
-      expect(subject.resolve(8)).toBe(true);
-    });
-
-    it("hits when roll plus attack modifier is greater than armor class", function() {
-      expect(subject.resolve(15)).toBe(true);
-    });
-
-    describe("and attacker is a Rogue", function() {
-
-      beforeEach(function() {
-        spyOn(attacker, 'characterClass').and.returnValue('Rogue');
-      });
-
-      describe("and defender has a bonus to armor class due to dexterity modifier", function() {
-
-        beforeEach(function() {
-          spyOn(defender.dexterity(), 'modifier').and.returnValue(2);
-        });
-
-        it("misses when roll plus attack modifier is less than armor class minus dexterity modifier", function() {
-          expect(subject.resolve(5)).toBe(false);
-        });
-
-        it("hits when roll plus attack modifier equals armor class minus dexterity modifier", function() {
-          expect(subject.resolve(6)).toBe(true);
-        });
-
-        it("hits when roll plus attack modifier is greater than armor class minus dexterity modifier", function() {
-          expect(subject.resolve(15)).toBe(true);
-        });
-
-      });
-
-      describe("and defender has a penalty to armor class due to dexterity modifier", function() {
-
-        beforeEach(function() {
-          spyOn(defender.dexterity(), 'modifier').and.returnValue(-2);
-        });
-
-        it("misses when roll plus attack modifier is less than armor class", function() {
-          expect(subject.resolve(5)).toBe(false);
-        });
-
-        it("hits when roll plus attack modifier equals armor class", function() {
-          expect(subject.resolve(8)).toBe(true);
-        });
-
-        it("hits when roll plus attack modifier is greater than armor class", function() {
-          expect(subject.resolve(15)).toBe(true);
-        });
-
-      });
-
-    });
-
-    describe("and attacker is a Paladin", function() {
-
-      beforeEach(function() {
-        spyOn(attacker, 'characterClass').and.returnValue('Rogue');
-      });
-
-      describe("and defender is Evil", function() {
-
-        beforeEach(function() {
-          spyOn(defender.dexterity(), 'modifier').and.returnValue(2);
-        });
-
-        it("misses when roll plus attack modifier is less than armor class minus dexterity modifier", function() {
-          expect(subject.resolve(5)).toBe(false);
-        });
-
-        it("hits when roll plus attack modifier equals armor class minus dexterity modifier", function() {
-          expect(subject.resolve(6)).toBe(true);
-        });
-
-        it("hits when roll plus attack modifier is greater than armor class minus dexterity modifier", function() {
-          expect(subject.resolve(15)).toBe(true);
-        });
-
-      });
-
-      describe("and defender is not Evil", function() {
-
-        beforeEach(function() {
-          spyOn(defender.dexterity(), 'modifier').and.returnValue(-2);
-        });
-
-        it("misses when roll plus attack modifier is less than armor class", function() {
-          expect(subject.resolve(5)).toBe(false);
-        });
-
-        it("hits when roll plus attack modifier equals armor class", function() {
-          expect(subject.resolve(8)).toBe(true);
-        });
-
-        it("hits when roll plus attack modifier is greater than armor class", function() {
-          expect(subject.resolve(15)).toBe(true);
-        });
-
-      });
-
-    });
-    
-  });
-
   describe("when attacking", function() {
 
     beforeEach(function() {
+      spyOn(defender, 'armorClass').and.returnValue(10);
       spyOn(attacker, 'attackDamage').and.returnValue(2);
-      spyOn(attacker, 'criticalDamage').and.returnValue(5);
       spyOn(defender, 'damage');
     });
 
@@ -171,8 +54,8 @@ describe("Attack", function() {
         subject.resolve(20);
       });
 
-      it("damages the defender with critical damage", function() {
-        expect(defender.damage).toHaveBeenCalledWith(5);
+      it("damages the defender with double damage", function() {
+        expect(defender.damage).toHaveBeenCalledWith(4);
       });
 
       it("grants the attacker 10 experience points", function() {
@@ -181,6 +64,122 @@ describe("Attack", function() {
 
     });
 
+    describe("and the attacker has an attack modifier", function() {
+
+      beforeEach(function() {
+        spyOn(attacker, 'attackModifier').and.returnValue(2);
+      });
+
+      it("adds the attack modifier to the attack roll", function() {
+        expect(hitsOn(8)).toBe(true);
+      });
+
+    });
+
+    describe("and attacker is a Rogue", function() {
+
+      beforeEach(function() {
+        spyOn(attacker, 'characterClass').and.returnValue('Rogue');
+      });
+
+      describe("and it is a critical hit", function() {
+
+        beforeEach(function() {
+          subject.resolve(20);
+        });
+
+        it("does triple damage", function() {
+          expect(defender.damage).toHaveBeenCalledWith(6);
+        });
+
+      });
+
+      describe("and defender has a bonus to armor class due to dexterity modifier", function() {
+
+        beforeEach(function() {
+          spyOn(defender.dexterity(), 'modifier').and.returnValue(2);
+        });
+
+        it("subtracts the dexterity modifier from the armor class for the attack roll", function() {
+          expect(hitsOn(8)).toBe(true);
+        });
+
+      });
+
+      describe("and defender has a penalty to armor class due to dexterity modifier", function() {
+
+        beforeEach(function() {
+          spyOn(defender.dexterity(), 'modifier').and.returnValue(-2);
+        });
+
+        it("does not subtract the negative dexterity modifier from the armor class for the attack roll", function() {
+          expect(hitsOn(10)).toBe(true);
+        });
+
+      });
+
+    });
+
+    describe("and attacker is a Paladin", function() {
+
+      beforeEach(function() {
+        spyOn(attacker, 'characterClass').and.returnValue('Paladin');
+      });
+
+      describe("and defender is Evil", function() {
+
+        beforeEach(function() {
+          spyOn(defender, 'alignment').and.returnValue("EVIL");
+        });
+
+        it("add the +2 evil bonus to the attack roll", function() {
+          expect(hitsOn(8)).toBe(true);
+        });
+
+        describe("and it is a hit", function() {
+
+          beforeEach(function() {
+            subject.resolve(15);
+          });
+
+          it("adds the +2 evil bonus to the damage", function() {
+            expect(defender.damage).toHaveBeenCalledWith(4);
+          });
+
+        });
+
+      });
+
+      describe("and defender is not Evil", function() {
+
+        beforeEach(function() {
+          spyOn(defender, 'alignment').and.returnValue("GOOD");
+        });
+
+        it("doesn't add the +2 evil bonus to the attack roll", function() {
+          expect(hitsOn(10)).toBe(true);
+        });
+
+        describe("and it is a hit", function() {
+
+          beforeEach(function() {
+            subject.resolve(15);
+          });
+
+          it("doesn't add the +2 evil bonus to the damage", function() {
+            expect(defender.damage).toHaveBeenCalledWith(2);
+          });
+
+        });
+
+      });
+
+    });
+
   });
+
+  function hitsOn(roll) {
+    return subject.resolve(roll - 1) === false && subject.resolve(roll) === true && subject.resolve(roll + 1) === true;
+  }
 
 });
