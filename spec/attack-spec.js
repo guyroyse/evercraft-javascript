@@ -97,7 +97,7 @@ describe("Attack", function() {
       describe("and defender has a bonus to armor class due to dexterity modifier", function() {
 
         beforeEach(function() {
-          spyOn(defender.dexterity(), 'modifier').and.returnValue(2);
+          spyOn(defender, 'dexterityModifier').and.returnValue(2);
         });
 
         it("subtracts the dexterity modifier from the armor class for the attack roll", function() {
@@ -109,7 +109,7 @@ describe("Attack", function() {
       describe("and defender has a penalty to armor class due to dexterity modifier", function() {
 
         beforeEach(function() {
-          spyOn(defender.dexterity(), 'modifier').and.returnValue(-2);
+          spyOn(defender, 'dexterityModifier').and.returnValue(-2);
         });
 
         it("does not subtract the negative dexterity modifier from the armor class for the attack roll", function() {

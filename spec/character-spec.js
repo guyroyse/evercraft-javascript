@@ -100,33 +100,33 @@ describe("Character", function() {
   describe("abilities", function() {
 
     it("has a strength", function() {
-      expect(subject.strength().score()).toBe(10);
-      expect(subject.strength().modifier()).toBe(0);
+      expect(subject.strengthScore()).toBe(10);
+      expect(subject.strengthModifier()).toBe(0);
     });
 
     it("has a dexterity", function() {
-      expect(subject.dexterity().score()).toBe(10);
-      expect(subject.dexterity().modifier()).toBe(0);
+      expect(subject.dexterityScore()).toBe(10);
+      expect(subject.dexterityModifier()).toBe(0);
     });
 
     it("has a constitution", function() {
-      expect(subject.constitution().score()).toBe(10);
-      expect(subject.constitution().modifier()).toBe(0);
+      expect(subject.constitutionScore()).toBe(10);
+      expect(subject.constitutionModifier()).toBe(0);
     });
 
     it("has a intelligence", function() {
-      expect(subject.intelligence().score()).toBe(10);
-      expect(subject.intelligence().modifier()).toBe(0);
+      expect(subject.intelligenceScore()).toBe(10);
+      expect(subject.intelligenceModifier()).toBe(0);
     });
 
     it("has a wisdom", function() {
-      expect(subject.wisdom().score()).toBe(10);
-      expect(subject.wisdom().modifier()).toBe(0);
+      expect(subject.wisdomScore()).toBe(10);
+      expect(subject.wisdomModifier()).toBe(0);
     });
 
     it("has a charisma", function() {
-      expect(subject.charisma().score()).toBe(10);
-      expect(subject.charisma().modifier()).toBe(0);
+      expect(subject.charismaScore()).toBe(10);
+      expect(subject.charismaModifier()).toBe(0);
     });
 
   });
@@ -138,7 +138,7 @@ describe("Character", function() {
     });
 
     it("is modified by dexterity modifier", function() {
-      subject.dexterity().score(14);
+      subject.dexterityScore(14);
       expect(subject.armorClass()).toBe(12);
     });
 
@@ -149,18 +149,18 @@ describe("Character", function() {
       });
 
       it("is modified by wisdom bonus", function() {
-        subject.wisdom().score(16);
+        subject.wisdomScore(16);
         expect(subject.armorClass()).toBe(13);
       });
 
       it("is not modified by wisdom penalty", function() {
-        subject.wisdom().score(6);
+        subject.wisdomScore(6);
         expect(subject.armorClass()).toBe(10);
       });
 
       it("is modified by dexterity and wisdom modifier", function() {
-        subject.dexterity().score(14);
-        subject.wisdom().score(16);
+        subject.dexterityScore(14);
+        subject.wisdomScore(16);
         expect(subject.armorClass()).toBe(15);
       });
 
@@ -179,12 +179,12 @@ describe("Character", function() {
     });
 
     it("is modified by constitution modifier per level", function() {
-      subject.constitution().score(14);
+      subject.constitutionScore(14);
       expect(subject.maxHitPoints()).toBe(21);
     });
 
     it("cannot be modified below 1 per level", function() {
-      subject.constitution().score(1);
+      subject.constitutionScore(1);
       expect(subject.maxHitPoints()).toBe(3);
     });
 
@@ -246,7 +246,7 @@ describe("Character", function() {
     });
 
     it("has strength modifier added to it", function() {
-      subject.strength().score(14);
+      subject.strengthScore(14);
       expect(subject.attackModifier()).toBe(4);
     });
 
@@ -271,7 +271,7 @@ describe("Character", function() {
       describe("who is strong", function() {
 
         beforeEach(function() {
-          subject.strength().score(14);
+          subject.strengthScore(14);
         });
 
         it("does not have strength modifier added to it", function() {
@@ -283,7 +283,7 @@ describe("Character", function() {
       describe("who is quick", function() {
 
         beforeEach(function() {
-          subject.dexterity().score(14);
+          subject.dexterityScore(14);
         });
 
         it("has dexterity modifier added to it", function() {
@@ -327,12 +327,12 @@ describe("Character", function() {
     });
 
     it("has strength modifier added to it", function() {
-      subject.strength().score(14);
+      subject.strengthScore(14);
       expect(subject.attackDamage()).toBe(3);
     });
 
     it("is always at least 1", function() {
-      subject.strength().score(8);
+      subject.strengthScore(8);
       expect(subject.attackDamage()).toBe(1);
     });
 

@@ -3,13 +3,8 @@ var Evercraft = Evercraft || {};
 Evercraft.Character = {
   create : function() {
 
-    var _name = "";
-    var _xp = 0;
-
-    var _alignment = "NEUTRAL";
     var _damage = 0;
     var _props = {};
-    var _abilities = {};
 
     var _classTable = {
       'No Class' : { hpPerLevel : 5,  damage : 1, attackProgression : 1/2 },
@@ -27,14 +22,24 @@ Evercraft.Character = {
           _props[name] = val;
         }
         return _props[name];
-      }
+      };
     }
 
     function abilityFn(name) {
       _props[name] = Evercraft.Ability.create();
       return function() {
         return _props[name];
-      }
+      };
+    }
+
+    function abilityScoreFn(name) {
+      if (!_props[name]) _props[name] = Evercraft.Ability.create();
+      return _props[name].score;
+    }
+
+    function abilityModifierFn(name) {
+      if (!_props[name]) _props[name] = Evercraft.Ability.create();
+      return _props[name].modifier;
     }
 
     function level() {
@@ -105,8 +110,16 @@ Evercraft.Character = {
       return _props.con.modifier();
     }
 
+    function intModifier() {
+      return _props.int.modifier();
+    }
+
     function wisModifier() {
       return _props.wis.modifier();
+    }
+
+    function chaModifier() {
+      return _props.cha.modifier();
     }
 
     function wisBonus() {
@@ -127,12 +140,25 @@ Evercraft.Character = {
       alignment : propertyFn("alignment", "NEUTRAL", validateAlignment),
       experiencePoints : propertyFn("xp", 0),
       characterClass : propertyFn("class", "No Class"),
-      strength : abilityFn("str"),
-      dexterity : abilityFn("dex"),
-      constitution : abilityFn("con"),
-      intelligence : abilityFn("int"),
-      wisdom : abilityFn("wis"),
-      charisma : abilityFn("cha"),
+
+      strengthScore : abilityScoreFn("str"),
+      strengthModifier : strModifier,
+
+      dexterityScore : abilityScoreFn("dex"),
+      dexterityModifier : dexModifier,
+
+      constitutionScore : abilityScoreFn("con"),
+      constitutionModifier : conModifier,
+
+      intelligenceScore : abilityScoreFn("int"),
+      intelligenceModifier : intModifier,
+
+      wisdomScore : abilityScoreFn("wis"),
+      wisdomModifier : wisModifier,
+
+      charismaScore : abilityScoreFn("cha"),
+      charismaModifier : chaModifier,
+
       level : level,
       armorClass : armorClass,
       maxHitPoints : maxHitPoints,

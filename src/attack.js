@@ -65,7 +65,7 @@ Evercraft.Attack = {
     }
 
     function armorClassMinusDexBonus() {
-      return defender.armorClass() - Math.max(0, defender.dexterity().modifier());
+      return defender.armorClass() - Math.max(0, defender.dexterityModifier());
     }
 
     function attackerIsRogue() {
