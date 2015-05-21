@@ -114,6 +114,18 @@ describe("Character - Abilities", function() {
         expect(subject.intelligenceModifier()).toBe(0);
       });
 
+      describe("when an Orc", function() {
+
+        beforeEach(function() {
+          subject.race("Orc");
+        });
+
+        it("has a -1 penalty", function() {
+          expect(subject.intelligenceModifier()).toBe(-1);
+        });
+
+      });
+
     });
 
   });
@@ -139,6 +151,18 @@ describe("Character - Abilities", function() {
         expect(subject.wisdomModifier()).toBe(0);
       });
 
+      describe("when an Orc", function() {
+
+        beforeEach(function() {
+          subject.race("Orc");
+        });
+
+        it("has a -1 penalty", function() {
+          expect(subject.wisdomModifier()).toBe(-1);
+        });
+
+      });
+
     });
 
   });
@@ -162,6 +186,18 @@ describe("Character - Abilities", function() {
 
       it("defaults to 0", function() {
         expect(subject.charismaModifier()).toBe(0);
+      });
+
+      describe("when an Orc", function() {
+
+        beforeEach(function() {
+          subject.race("Orc");
+        });
+
+        it("has a -1 penalty", function() {
+          expect(subject.charismaModifier()).toBe(-1);
+        });
+
       });
 
     });

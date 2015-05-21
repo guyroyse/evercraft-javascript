@@ -99,15 +99,15 @@ Evercraft.Character = {
     }
 
     function intModifier() {
-      return _props.int.modifier();
+      return _props.race === "Orc" ? _props.int.modifier() - 1 : _props.int.modifier();
     }
 
     function wisModifier() {
-      return _props.wis.modifier();
+      return _props.race === "Orc" ? _props.wis.modifier() - 1 : _props.wis.modifier();
     }
 
     function chaModifier() {
-      return _props.cha.modifier();
+      return _props.race === "Orc" ? _props.cha.modifier() - 1 : _props.cha.modifier();
     }
 
     function wisBonus() {
