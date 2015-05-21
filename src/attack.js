@@ -33,7 +33,7 @@ Evercraft.Attack = {
     }
 
     function criticalMultiplier() {
-      return attackerIsRogue() ? 3 : 2;
+      return attackerIsRogue() || attackerIsPaladinVsEvil() ? 3 : 2;
     }
 
     function isHit(roll) {

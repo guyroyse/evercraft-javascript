@@ -350,48 +350,6 @@ describe("Character", function() {
 
   });
 
-  describe("criticalDamage", function() {
-
-    it("defaults to 2", function() {
-      expect(subject.criticalDamage()).toBe(2);
-    });
-
-    it("has twice strength modifier added to it", function() {
-      subject.strength().score(14);
-      expect(subject.criticalDamage()).toBe(6);
-    });
-
-    it("is always at least 1", function() {
-      subject.strength().score(2);
-      expect(subject.criticalDamage()).toBe(1);
-    });
-
-    describe("when a Rogue", function() {
-
-      beforeEach(function() {
-        subject.characterClass("Rogue");
-      });
-
-      it("defaults to 3", function() {
-        expect(subject.criticalDamage()).toBe(3);
-      });
-
-    });
-
-    describe("when a War Monk", function() {
-
-      beforeEach(function() {
-        subject.characterClass("War Monk");
-      });
-
-      it("defaults to 6", function() {
-        expect(subject.criticalDamage()).toBe(6);
-      });
-
-    });
-
-  });
-
   describe("alive", function() {
 
     it("defaults to true", function() {

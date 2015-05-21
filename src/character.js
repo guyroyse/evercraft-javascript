@@ -12,11 +12,11 @@ Evercraft.Character = {
     var _abilities = {};
 
     var _classTable = {
-      'No Class' : { hpPerLevel : 5,  damage : 1, critMultiplier: 2, attackProgression : 1/2 },
-      'Fighter'  : { hpPerLevel : 10, damage : 1, critMultiplier: 2, attackProgression : 1   },
-      'Rogue'    : { hpPerLevel : 5,  damage : 1, critMultiplier: 3, attackProgression : 1/2 },
-      'War Monk' : { hpPerLevel : 6,  damage : 3, critMultiplier: 2, attackProgression : 2/3 },
-      'Paladin'  : { hpPerLevel : 8,  damage : 1, critMultiplier: 2, attackProgression : 1   }
+      'No Class' : { hpPerLevel : 5,  damage : 1, attackProgression : 1/2 },
+      'Fighter'  : { hpPerLevel : 10, damage : 1, attackProgression : 1   },
+      'Rogue'    : { hpPerLevel : 5,  damage : 1, attackProgression : 1/2 },
+      'War Monk' : { hpPerLevel : 6,  damage : 3, attackProgression : 2/3 },
+      'Paladin'  : { hpPerLevel : 8,  damage : 1, attackProgression : 1   }
     }
 
     function propertyFn(name, defaultVal, validator) {
@@ -65,10 +65,6 @@ Evercraft.Character = {
       return Math.max(baseDamage(), 1);
     }
 
-    function criticalDamage() {
-      return Math.max(baseDamage() * criticalMultiplier(), 1);
-    }
-
     function damage(points) {
       _damage += points;
     }
@@ -95,10 +91,6 @@ Evercraft.Character = {
 
     function baseDamage() {
       return _classTable[_props.class].damage + strModifier();
-    }
-
-    function criticalMultiplier() {
-      return _classTable[_props.class].critMultiplier;
     }
 
     function strModifier() {
@@ -148,7 +140,6 @@ Evercraft.Character = {
       alive : alive,
       attackModifier : attackModifier,
       attackDamage : attackDamage,
-      criticalDamage : criticalDamage,
       damage : damage
     };
 

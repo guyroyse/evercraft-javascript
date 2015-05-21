@@ -12,7 +12,7 @@ describe("Attack", function() {
 
     beforeEach(function() {
       spyOn(defender, 'armorClass').and.returnValue(10);
-      spyOn(attacker, 'attackDamage').and.returnValue(2);
+      spyOn(attacker, 'attackDamage').and.returnValue(1);
       spyOn(defender, 'damage');
     });
 
@@ -39,7 +39,7 @@ describe("Attack", function() {
       });
 
       it("damages the defender", function() {
-        expect(defender.damage).toHaveBeenCalledWith(2);
+        expect(defender.damage).toHaveBeenCalledWith(1);
       });
 
       it("grants the attacker 10 experience points", function() {
@@ -55,7 +55,7 @@ describe("Attack", function() {
       });
 
       it("damages the defender with double damage", function() {
-        expect(defender.damage).toHaveBeenCalledWith(4);
+        expect(defender.damage).toHaveBeenCalledWith(2);
       });
 
       it("grants the attacker 10 experience points", function() {
@@ -89,7 +89,7 @@ describe("Attack", function() {
         });
 
         it("does triple damage", function() {
-          expect(defender.damage).toHaveBeenCalledWith(6);
+          expect(defender.damage).toHaveBeenCalledWith(3);
         });
 
       });
@@ -143,7 +143,19 @@ describe("Attack", function() {
           });
 
           it("adds the +2 evil bonus to the damage", function() {
-            expect(defender.damage).toHaveBeenCalledWith(4);
+            expect(defender.damage).toHaveBeenCalledWith(3);
+          });
+
+        });
+
+        describe("and it is a critical hit", function() {
+
+          beforeEach(function() {
+            subject.resolve(20);
+          });
+
+          it("does triple damage include triple the +2 evil bonus", function() {
+            expect(defender.damage).toHaveBeenCalledWith(9);
           });
 
         });
@@ -167,6 +179,18 @@ describe("Attack", function() {
           });
 
           it("doesn't add the +2 evil bonus to the damage", function() {
+            expect(defender.damage).toHaveBeenCalledWith(1);
+          });
+
+        });
+
+        describe("and it is a critical hit", function() {
+
+          beforeEach(function() {
+            subject.resolve(20);
+          });
+
+          it("does double damage and doesn't include double the +2 evil bonus", function() {
             expect(defender.damage).toHaveBeenCalledWith(2);
           });
 
