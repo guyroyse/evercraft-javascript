@@ -41,6 +41,38 @@ describe("Character - Armor Class", function() {
 
     });
 
+    describe("when an Orc", function() {
+
+      beforeEach(function() {
+        subject.race("Orc");
+      });
+
+      it("has a +2 bonus", function() {
+        expect(subject.armorClass()).toBe(12);
+      });
+
+      it("is modified by dexterity modifier and orcish bonus", function() {
+        subject.dexterityScore(14);
+        expect(subject.armorClass()).toBe(14);
+      });
+
+    });
+
+    describe("when an Orcish War Monk", function() {
+
+      beforeEach(function() {
+        subject.race("Orc");
+        subject.characterClass("War Monk");
+      });
+
+      it("is modified by dexterity and wisdom modifier and orcish bonus", function() {
+        subject.dexterityScore(14);
+        subject.wisdomScore(18);  // includes orcish wisdom penalty
+        expect(subject.armorClass()).toBe(17);
+      });
+
+    });
+
   });
 
 });

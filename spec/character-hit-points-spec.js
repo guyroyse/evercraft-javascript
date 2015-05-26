@@ -62,6 +62,39 @@ describe("Character - Hit Points", function() {
 
     });
 
+    describe("when a Dwarf", function() {
+
+      beforeEach(function() {
+        subject.race("Dwarf");
+      });
+
+      describe("with a constitution bonus", function() {
+
+        beforeEach(function() {
+          subject.constitutionScore(12);  // +2 bonus
+        });
+
+        it("is modified by twice the constitution bonus per level", function() {
+          expect(subject.maxHitPoints()).toBe(27);
+        });
+
+      });
+
+      describe("with a constitution penalty", function() {
+
+        beforeEach(function() {
+          subject.constitutionScore(6); // -1 penalty
+        });
+
+        it("is modified by constitution penalty per level", function() {
+          expect(subject.maxHitPoints()).toBe(12);
+        });
+
+
+      });
+
+    });
+
   });
 
   describe("hitPoints", function() {

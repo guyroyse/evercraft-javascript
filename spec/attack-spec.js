@@ -13,6 +13,7 @@ describe("Attack", function() {
     beforeEach(function() {
       spyOn(defender, 'armorClass').and.returnValue(10);
       spyOn(attacker, 'attackDamage').and.returnValue(1);
+      spyOn(attacker, 'attackModifier').and.returnValue(0);
       spyOn(defender, 'damage');
     });
 
@@ -67,7 +68,7 @@ describe("Attack", function() {
     describe("and the attacker has an attack modifier", function() {
 
       beforeEach(function() {
-        spyOn(attacker, 'attackModifier').and.returnValue(2);
+        attacker.attackModifier.and.returnValue(2);
       });
 
       it("adds the attack modifier to the attack roll", function() {

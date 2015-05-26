@@ -89,6 +89,18 @@ describe("Character - Abilities", function() {
         expect(subject.constitutionModifier()).toBe(0);
       });
 
+      describe("when an Dwarf", function() {
+
+        beforeEach(function() {
+          subject.race("Dwarf");
+        });
+
+        it("has a +1 bonus", function() {
+          expect(subject.constitutionModifier()).toBe(1);
+        });
+
+      });
+
     });
 
   });
@@ -192,6 +204,18 @@ describe("Character - Abilities", function() {
 
         beforeEach(function() {
           subject.race("Orc");
+        });
+
+        it("has a -1 penalty", function() {
+          expect(subject.charismaModifier()).toBe(-1);
+        });
+
+      });
+
+      describe("when an Dwarf", function() {
+
+        beforeEach(function() {
+          subject.race("Dwarf");
         });
 
         it("has a -1 penalty", function() {
