@@ -13,7 +13,7 @@ Evercraft.Character = {
     var _attackDamage = Evercraft.AttackDamage.create(self);
 
     self.name = propertyFn("name", "");
-    
+
     self.alignment = propertyFn("alignment", "NEUTRAL", function (val) {
       if (["GOOD", "NEUTRAL", "EVIL"].indexOf(val) === -1)
         throw "Alignment can only be GOOD, NEUTRAL, or EVIL";
@@ -30,12 +30,14 @@ Evercraft.Character = {
 
     self.dexterityScore = abilityScoreFn("dex");
     self.dexterityModifier = function() {
-      return _props.dex.modifier();
+      return _props.race === "Elf" ? _props.dex.modifier() + 1: _props.dex.modifier();
     };
 
     self.constitutionScore = abilityScoreFn("con");
     self.constitutionModifier = function() {
-      return _props.race === "Dwarf" ? _props.con.modifier() + 1 : _props.con.modifier();
+      if (_props.race === "Dwarf") return _props.con.modifier() + 1;
+      if (_props.race === "Elf") return _props.con.modifier() -1;
+      return _props.con.modifier();
     };
 
     self.intelligenceScore = abilityScoreFn("int");

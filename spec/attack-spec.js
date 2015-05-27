@@ -327,6 +327,57 @@ describe("Attack", function() {
 
     });
 
+    describe("and attacker is an Elf", function() {
+
+      beforeEach(function() {
+        spyOn(attacker, 'race').and.returnValue('Elf');
+      });
+
+      it("makes a normal hit on less than 19", function() {
+        subject.resolve(15);
+        expect(defender.damage).toHaveBeenCalledWith(1);
+      });
+
+      it("makes a critical hit on a 19", function() {
+        subject.resolve(19);
+        expect(defender.damage).toHaveBeenCalledWith(2);
+      });
+
+      it("makes a critical hit on a 20", function() {
+        subject.resolve(20);
+        expect(defender.damage).toHaveBeenCalledWith(2);
+      });
+
+    });
+
+    describe("and attacker is a Orc", function() {
+
+      beforeEach(function() {
+        spyOn(attacker, 'race').and.returnValue('Orc');
+      });
+
+      describe("and defender is an Elf", function() {
+
+        beforeEach(function() {
+          spyOn(defender, 'race').and.returnValue("Elf");
+        });
+
+        it("adds a -2 penalty to the attack roll", function() {
+          expect(hitsOn(12)).toBe(true);
+        });
+
+      });
+
+      describe("and defender is not an Elf", function() {
+
+        it("doesn't add a -2 penalty to the attack roll", function() {
+          expect(hitsOn(10)).toBe(true);
+        });
+
+      });
+
+    });
+
   });
 
   function hitsOn(roll) {

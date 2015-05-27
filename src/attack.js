@@ -44,7 +44,11 @@ Evercraft.Attack = {
     }
 
     function isCritical(roll) {
-      return roll === 20;
+      return roll >= criticalThreshold();
+    }
+
+    function criticalThreshold() {
+      return attackerIsElf() ? 19 : 20;
     }
 
     function effectiveRoll(roll) {
@@ -54,7 +58,8 @@ Evercraft.Attack = {
     function attackModifier() {
       var modifier = attacker.attackModifier();
       if (attackerIsPaladinVsEvil()) modifier += 2;
-      if (attackerIsDwarfVsOrc()) modifier +=2;
+      if (attackerIsDwarfVsOrc()) modifier += 2;
+      if (attackerIsOrcVsElf()) modifier -= 2;
       return modifier;
     }
 
@@ -82,6 +87,14 @@ Evercraft.Attack = {
       return attacker.race() === 'Dwarf';
     }
 
+    function attackerIsElf() {
+      return attacker.race() === 'Elf';
+    }
+
+    function attackerIsOrc() {
+      return attacker.race() === 'Orc';
+    }
+
     function defenderIsEvil() {
       return defender.alignment() === 'EVIL';
     }
@@ -90,12 +103,20 @@ Evercraft.Attack = {
       return defender.race() === 'Orc';
     }
 
+    function defenderIsElf() {
+      return defender.race() === 'Elf';
+    }
+
     function attackerIsPaladinVsEvil() {
       return attackerIsPaladin() && defenderIsEvil();
     }
 
     function attackerIsDwarfVsOrc() {
       return attackerIsDwarf() && defenderIsOrc();
+    }
+
+    function attackerIsOrcVsElf() {
+      return attackerIsOrc() && defenderIsElf();
     }
 
     return {

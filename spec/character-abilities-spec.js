@@ -64,6 +64,18 @@ describe("Character - Abilities", function() {
         expect(subject.dexterityModifier()).toBe(0);
       });
 
+      describe("when an Elf", function() {
+
+        beforeEach(function() {
+          subject.race("Elf");
+        });
+
+        it("has a +1 bonus", function() {
+          expect(subject.dexterityModifier()).toBe(1);
+        });
+
+      });
+
     });
 
   });
@@ -97,6 +109,18 @@ describe("Character - Abilities", function() {
 
         it("has a +1 bonus", function() {
           expect(subject.constitutionModifier()).toBe(1);
+        });
+
+      });
+
+      describe("when an Elf", function() {
+
+        beforeEach(function() {
+          subject.race("Elf");
+        });
+
+        it("has a -1 penalty", function() {
+          expect(subject.constitutionModifier()).toBe(-1);
         });
 
       });
