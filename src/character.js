@@ -25,12 +25,16 @@ Evercraft.Character = {
 
     self.strengthScore = abilityScoreFn("str");
     self.strengthModifier = function() {
-      return _props.race === "Orc" ? _props.str.modifier() + 2: _props.str.modifier();
+      if (_props.race === "Orc") return _props.str.modifier() + 2;
+      if (_props.race === "Halfling") return _props.str.modifier() - 1;
+      return _props.str.modifier();
     };
 
     self.dexterityScore = abilityScoreFn("dex");
     self.dexterityModifier = function() {
-      return _props.race === "Elf" ? _props.dex.modifier() + 1: _props.dex.modifier();
+      if (_props.race === "Elf") return _props.dex.modifier() + 1;
+      if (_props.race === "Halfling") return _props.dex.modifier() + 1;
+      return _props.dex.modifier();
     };
 
     self.constitutionScore = abilityScoreFn("con");
@@ -42,17 +46,21 @@ Evercraft.Character = {
 
     self.intelligenceScore = abilityScoreFn("int");
     self.intelligenceModifier = function() {
-      return _props.race === "Orc" ? _props.int.modifier() - 1 : _props.int.modifier();
+      if (_props.race === "Orc") return _props.int.modifier() - 1;
+      return _props.int.modifier();
     };
 
     self.wisdomScore = abilityScoreFn("wis");
     self.wisdomModifier = function() {
-      return _props.race === "Orc" ? _props.wis.modifier() - 1 : _props.wis.modifier();
+      if (_props.race === "Orc") return _props.wis.modifier() - 1;
+      return _props.wis.modifier();
     };
 
     self.charismaScore = abilityScoreFn("cha");
     self.charismaModifier = function() {
-      return _props.race === "Orc" || _props.race === "Dwarf" ? _props.cha.modifier() - 1 : _props.cha.modifier();
+      if (_props.race === "Orc") return _props.cha.modifier() - 1;
+      if (_props.race === "Dwarf") return _props.cha.modifier() - 1;
+      return _props.cha.modifier();
     };
 
     self.level = function() {

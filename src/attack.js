@@ -60,6 +60,7 @@ Evercraft.Attack = {
       if (attackerIsPaladinVsEvil()) modifier += 2;
       if (attackerIsDwarfVsOrc()) modifier += 2;
       if (attackerIsOrcVsElf()) modifier -= 2;
+      if (attackerIsNonHalflingVsHalfling()) modifier -= 2;
       return modifier;
     }
 
@@ -107,6 +108,10 @@ Evercraft.Attack = {
       return defender.race() === 'Elf';
     }
 
+    function defenderIsHalfling() {
+      return defender.race() === "Halfling";
+    }
+
     function attackerIsPaladinVsEvil() {
       return attackerIsPaladin() && defenderIsEvil();
     }
@@ -117,6 +122,14 @@ Evercraft.Attack = {
 
     function attackerIsOrcVsElf() {
       return attackerIsOrc() && defenderIsElf();
+    }
+
+    function attackerIsNonHalfling() {
+      return attacker.race() !== "Halfling";
+    }
+
+    function attackerIsNonHalflingVsHalfling() {
+      return attackerIsNonHalfling() && defenderIsHalfling();
     }
 
     return {

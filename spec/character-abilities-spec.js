@@ -39,6 +39,18 @@ describe("Character - Abilities", function() {
 
       });
 
+      describe("when a Halfling", function() {
+
+        beforeEach(function() {
+          subject.race("Halfling");
+        });
+
+        it("has a -1 penalty", function() {
+          expect(subject.strengthModifier()).toBe(-1);
+        });
+
+      });
+
     });
 
   });
@@ -68,6 +80,18 @@ describe("Character - Abilities", function() {
 
         beforeEach(function() {
           subject.race("Elf");
+        });
+
+        it("has a +1 bonus", function() {
+          expect(subject.dexterityModifier()).toBe(1);
+        });
+
+      });
+
+      describe("when an Halfling", function() {
+
+        beforeEach(function() {
+          subject.race("Halfling");
         });
 
         it("has a +1 bonus", function() {

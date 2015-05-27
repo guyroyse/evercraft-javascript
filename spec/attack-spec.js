@@ -378,6 +378,30 @@ describe("Attack", function() {
 
     });
 
+    describe("and defender is a Halfling", function() {
+
+      beforeEach(function() {
+        spyOn(defender, 'race').and.returnValue('Halfling');
+      });
+
+      it("adds a -2 penalty to the attack roll", function() {
+        expect(hitsOn(12)).toBe(true);
+      });
+
+      describe("and attacker is a Halfling", function() {
+
+        beforeEach(function() {
+          spyOn(attacker, 'race').and.returnValue('Halfling');
+        });
+
+        it("doesn't add a -2 penalty to the attack roll", function() {
+          expect(hitsOn(10)).toBe(true);
+        });
+
+      });
+
+    });
+
   });
 
   function hitsOn(roll) {
