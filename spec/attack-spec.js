@@ -201,6 +201,132 @@ describe("Attack", function() {
 
     });
 
+    describe("and attacker is a Dwarf", function() {
+
+      beforeEach(function() {
+        spyOn(attacker, 'race').and.returnValue('Dwarf');
+      });
+
+      describe("and defender is an Orc", function() {
+
+        beforeEach(function() {
+          spyOn(defender, 'race').and.returnValue("Orc");
+        });
+
+        it("adds a +2 bonus to the attack roll", function() {
+          expect(hitsOn(8)).toBe(true);
+        });
+
+        describe("and it is a hit", function() {
+
+          beforeEach(function() {
+            subject.resolve(15);
+          });
+
+          it("adds a +2 bonus to the damage", function() {
+            expect(defender.damage).toHaveBeenCalledWith(3);
+          });
+
+        });
+
+        describe("and it is a critical hit", function() {
+
+          beforeEach(function() {
+            subject.resolve(20);
+          });
+
+          it("does doubles the +2 bonus to damage", function() {
+            expect(defender.damage).toHaveBeenCalledWith(6);
+          });
+
+        });
+
+      });
+
+      describe("and defender is not an Orc", function() {
+
+        beforeEach(function() {
+          spyOn(defender, 'alignment').and.returnValue("GOOD");
+        });
+
+        it("doesn't add a +2 bonus to the attack roll", function() {
+          expect(hitsOn(10)).toBe(true);
+        });
+
+        describe("and it is a hit", function() {
+
+          beforeEach(function() {
+            subject.resolve(15);
+          });
+
+          it("doesn't add a +2 bonus to the damage", function() {
+            expect(defender.damage).toHaveBeenCalledWith(1);
+          });
+
+        });
+
+        describe("and it is a critical hit", function() {
+
+          beforeEach(function() {
+            subject.resolve(20);
+          });
+
+          it("does double damage and doesn't include a doubled +2 bonus", function() {
+            expect(defender.damage).toHaveBeenCalledWith(2);
+          });
+
+        });
+
+      });
+
+    });
+
+    describe("and attacker is a Dwarven Paladin", function() {
+
+      beforeEach(function() {
+        spyOn(attacker, 'characterClass').and.returnValue('Paladin');
+        spyOn(attacker, 'race').and.returnValue('Dwarf');
+      });
+
+      describe("and defender is an Evil Orc", function() {
+
+        beforeEach(function() {
+          spyOn(defender, 'race').and.returnValue("Orc");
+          spyOn(defender, 'alignment').and.returnValue("EVIL");
+        });
+
+        it("adds a +2 evil bonus and +2 dwarven bonus to the attack roll", function() {
+          expect(hitsOn(6)).toBe(true);
+        });
+
+        describe("and it is a hit", function() {
+
+          beforeEach(function() {
+            subject.resolve(15);
+          });
+
+          it("adds a +2 evil bonus and +2 dwarven bonus to the damage", function() {
+            expect(defender.damage).toHaveBeenCalledWith(5);
+          });
+
+        });
+
+        describe("and it is a critical hit", function() {
+
+          beforeEach(function() {
+            subject.resolve(20);
+          });
+
+          it("does triples the +2 evil bonus and the +2 dwarven bonus to damage", function() {
+            expect(defender.damage).toHaveBeenCalledWith(15);
+          });
+
+        });
+
+      });
+
+    });
+
   });
 
   function hitsOn(roll) {

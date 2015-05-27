@@ -3,7 +3,87 @@ var Evercraft = Evercraft || {};
 Evercraft.Character = {
   create : function() {
 
+    var self = {};
+
     var _props = {};
+
+    var _armorClass = Evercraft.ArmorClass.create(self);
+    var _hitPoints = Evercraft.HitPoints.create(self);
+    var _attackModifier = Evercraft.AttackModifier.create(self);
+    var _attackDamage = Evercraft.AttackDamage.create(self);
+
+    self.name = propertyFn("name", "");
+    
+    self.alignment = propertyFn("alignment", "NEUTRAL", function (val) {
+      if (["GOOD", "NEUTRAL", "EVIL"].indexOf(val) === -1)
+        throw "Alignment can only be GOOD, NEUTRAL, or EVIL";
+    });
+
+    self.experiencePoints = propertyFn("xp", 0);
+    self.characterClass = propertyFn("class", "No Class");
+    self.race = propertyFn("race", "Human");
+
+    self.strengthScore = abilityScoreFn("str");
+    self.strengthModifier = function() {
+      return _props.race === "Orc" ? _props.str.modifier() + 2: _props.str.modifier();
+    };
+
+    self.dexterityScore = abilityScoreFn("dex");
+    self.dexterityModifier = function() {
+      return _props.dex.modifier();
+    };
+
+    self.constitutionScore = abilityScoreFn("con");
+    self.constitutionModifier = function() {
+      return _props.race === "Dwarf" ? _props.con.modifier() + 1 : _props.con.modifier();
+    };
+
+    self.intelligenceScore = abilityScoreFn("int");
+    self.intelligenceModifier = function() {
+      return _props.race === "Orc" ? _props.int.modifier() - 1 : _props.int.modifier();
+    };
+
+    self.wisdomScore = abilityScoreFn("wis");
+    self.wisdomModifier = function() {
+      return _props.race === "Orc" ? _props.wis.modifier() - 1 : _props.wis.modifier();
+    };
+
+    self.charismaScore = abilityScoreFn("cha");
+    self.charismaModifier = function() {
+      return _props.race === "Orc" || _props.race === "Dwarf" ? _props.cha.modifier() - 1 : _props.cha.modifier();
+    };
+
+    self.level = function() {
+      return 1 + Math.floor(_props.xp / 1000);
+    };
+
+    self.armorClass = function() {
+      return _armorClass.armorClass();
+    };
+
+    self.maxHitPoints = function() {
+      return _hitPoints.maxHitPoints();
+    };
+
+    self.hitPoints = function() {
+      return _hitPoints.hitPoints();
+    };
+
+    self.alive = function() {
+      return _hitPoints.alive();
+    };
+
+    self.damage = function (points) {
+      _hitPoints.damage(points);
+    };
+
+    self.attackModifier = function() {
+      return _attackModifier.attackModifier();
+    };
+
+    self.attackDamage = function() {
+      return _attackDamage.attackDamage();
+    };
 
     function propertyFn(name, defaultVal, validator) {
       _props[name] = defaultVal;
@@ -19,114 +99,6 @@ Evercraft.Character = {
     function abilityScoreFn(name) {
       _props[name] = Evercraft.Ability.create();
       return _props[name].score;
-    }
-
-    var self = {
-      name : propertyFn("name", ""),
-      alignment : propertyFn("alignment", "NEUTRAL", validateAlignment),
-      experiencePoints : propertyFn("xp", 0),
-      characterClass : propertyFn("class", "No Class"),
-      race : propertyFn("race", "Human"),
-
-      strengthScore : abilityScoreFn("str"),
-      strengthModifier : strModifier,
-
-      dexterityScore : abilityScoreFn("dex"),
-      dexterityModifier : dexModifier,
-
-      constitutionScore : abilityScoreFn("con"),
-      constitutionModifier : conModifier,
-
-      intelligenceScore : abilityScoreFn("int"),
-      intelligenceModifier : intModifier,
-
-      wisdomScore : abilityScoreFn("wis"),
-      wisdomModifier : wisModifier,
-
-      charismaScore : abilityScoreFn("cha"),
-      charismaModifier : chaModifier,
-
-      level : level,
-
-      armorClass : armorClass,
-      maxHitPoints : maxHitPoints,
-      hitPoints : hitPoints,
-      alive : alive,
-      damage : damage,
-
-      attackModifier : attackModifier,
-
-      attackDamage : attackDamage
-    };
-
-    var _hp = Evercraft.HitPoints.create(self);
-    var _ac = Evercraft.ArmorClass.create(self);
-    var _am = Evercraft.AttackModifier.create(self);
-    var _ad = Evercraft.AttackDamage.create(self);
-
-    function level() {
-      return 1 + Math.floor(_props.xp / 1000);
-    }
-
-    function armorClass() {
-      return _ac.armorClass();
-    }
-
-    function maxHitPoints() {
-      return _hp.maxHitPoints();
-    }
-
-    function hitPoints() {
-      return _hp.hitPoints();
-    }
-
-    function alive() {
-      return _hp.alive();
-    }
-
-    function damage(points) {
-      _hp.damage(points);
-    }
-
-    function attackModifier() {
-      return _am.attackModifier();
-    }
-
-    function attackDamage() {
-      return _ad.attackDamage();
-    }
-
-    function strModifier() {
-      return _props.race === "Orc" ? _props.str.modifier() + 2: _props.str.modifier();
-    }
-
-    function dexModifier() {
-      return _props.dex.modifier();
-    }
-
-    function conModifier() {
-      return _props.race === "Dwarf" ? _props.con.modifier() + 1 : _props.con.modifier();
-    }
-
-    function intModifier() {
-      return _props.race === "Orc" ? _props.int.modifier() - 1 : _props.int.modifier();
-    }
-
-    function wisModifier() {
-      return _props.race === "Orc" ? _props.wis.modifier() - 1 : _props.wis.modifier();
-    }
-
-    function chaModifier() {
-      return _props.race === "Orc" || _props.race === "Dwarf" ? _props.cha.modifier() - 1 : _props.cha.modifier();
-    }
-
-    function validateAlignment(val) {
-      if (!alignmentIsValid(val))
-        throw "Alignment can only be GOOD, NEUTRAL, or EVIL";
-    }
-
-    function alignmentIsValid(val) {
-      return ["GOOD", "NEUTRAL", "EVIL"].indexOf(val) !== -1;
     }
 
     return self;

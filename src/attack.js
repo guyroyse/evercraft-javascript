@@ -25,7 +25,10 @@ Evercraft.Attack = {
     }
 
     function attackDamage() {
-      return attackerIsPaladinVsEvil() ? attacker.attackDamage() + 2 : attacker.attackDamage();
+      var damage = attacker.attackDamage();
+      if (attackerIsPaladinVsEvil()) damage += 2;
+      if (attackerIsDwarfVsOrc()) damage += 2;
+      return damage;
     }
 
     function criticalDamage() {
@@ -45,15 +48,14 @@ Evercraft.Attack = {
     }
 
     function effectiveRoll(roll) {
-      return roll + effectiveAttackModifier();
-    }
-
-    function effectiveAttackModifier() {
-      return attackerIsPaladinVsEvil() ? attackModifier() + 2 : attackModifier();
+      return roll + attackModifier();
     }
 
     function attackModifier() {
-      return attacker.attackModifier();
+      var modifier = attacker.attackModifier();
+      if (attackerIsPaladinVsEvil()) modifier += 2;
+      if (attackerIsDwarfVsOrc()) modifier +=2;
+      return modifier;
     }
 
     function effectiveArmorClass() {
@@ -76,12 +78,24 @@ Evercraft.Attack = {
       return attacker.characterClass() === 'Paladin';
     }
 
+    function attackerIsDwarf() {
+      return attacker.race() === 'Dwarf';
+    }
+
     function defenderIsEvil() {
       return defender.alignment() === 'EVIL';
     }
 
+    function defenderIsOrc() {
+      return defender.race() === 'Orc';
+    }
+
     function attackerIsPaladinVsEvil() {
       return attackerIsPaladin() && defenderIsEvil();
+    }
+
+    function attackerIsDwarfVsOrc() {
+      return attackerIsDwarf() && defenderIsOrc();
     }
 
     return {
